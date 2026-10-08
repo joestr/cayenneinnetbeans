@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Localizing-Bundle: at/priv/joestr/cayenneinnetbeans/Bundle.properties
+OpenIDE-Module-Layer: at/priv/joestr/cayenneinnetbeans/layer.xml
+OpenIDE-Module-Java-Dependencies: Java > 21

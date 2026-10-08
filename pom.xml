@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>at.priv.joestr</groupId>
+    <artifactId>cayenneinnetbeans</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>nbm</packaging>
+    <name>Cayenne in NetBeans</name>
+    <description>Apache Cayenne 5 for Apache NetBeans: CayenneModeler, class generation, file types and an IDE library.</description>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.netbeans.utilities</groupId>
+                <artifactId>nbm-maven-plugin</artifactId>
+                <version>14.5</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- Keep Cayenne and its dependencies as plain jars in modules/ext, so the
+                         modeler can be launched from them and the IDE library can point at them. -->
+                    <useOSGiDependencies>false</useOSGiDependencies>
+                    <codeNameBase>at.priv.joestr.cayenneinnetbeans</codeNameBase>
+                    <requiresRestart>true</requiresRestart>
+                    <nbmResources>
+                        <nbmResource>
+                            <directory>${project.build.directory}/modeler-libs</directory>
+                            <targetPath>modules/ext/at.priv.joestr.cayenneinnetbeans/modeler</targetPath>
+                        </nbmResource>
+                    </nbmResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <!-- jars only the standalone modeler JVM needs; everything else it
+                             shares with the module classpath -->
+                        <id>copy-modeler-libs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>provided</includeScope>
+                            <excludeGroupIds>org.netbeans.api</excludeGroupIds>
+                            <outputDirectory>${project.build.directory}/modeler-libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.16.0</version>
+                <configuration>
+                    <!-- JDK 23+ no longer runs annotation processors found on the classpath by
+                         default; the NetBeans ones generate the layer and the Bundle classes. -->
+                    <proc>full</proc>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <!-- NetBeans APIs -->
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-api-annotations-common</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-awt</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-ui</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-lookup</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-filesystems</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-loaders</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-nodes</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-text</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-windows</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-dialogs</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-io</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-modules</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-core-multiview</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-modules-projectapi</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+
+        <!-- Apache Cayenne: runtime (exposed as an IDE library), cgen and the modeler.
+             All of it ends up under modules/ext of this module. -->
+        <dependency>
+            <groupId>org.apache.cayenne</groupId>
+            <artifactId>cayenne</artifactId>
+            <version>${cayenne.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cayenne</groupId>
+            <artifactId>cayenne-cgen</artifactId>
+            <version>${cayenne.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cayenne</groupId>
+            <artifactId>cayenne-dbsync</artifactId>
+            <version>${cayenne.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cayenne.modeler</groupId>
+            <artifactId>cayenne-modeler</artifactId>
+            <version>${cayenne.version}</version>
+            <!-- On the module classpath: the modeler UI can run inside an IDE tab. -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.formdev</groupId>
+                    <artifactId>flatlaf</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <!-- Only the standalone modeler JVM installs FlatLaf; inside the IDE the IDE's look
+                 and feel is used. Copied to modules/ext/.../modeler, off the module classpath. -->
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>${flatlaf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Cayenne 5.0 is compiled for Java 21, so the IDE has to run on 21+ as well -->
+        <maven.compiler.release>21</maven.compiler.release>
+        <netbeans.version>RELEASE310</netbeans.version>
+        <cayenne.version>5.0-M3</cayenne.version>
+        <!-- the version cayenne-modeler ${cayenne.version} is built with -->
+        <flatlaf.version>3.7.1</flatlaf.version>
+    </properties>
+</project>

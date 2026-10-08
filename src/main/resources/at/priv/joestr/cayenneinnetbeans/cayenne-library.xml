@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library PUBLIC "-//NetBeans//DTD Library Declaration 1.0//EN" "http://www.netbeans.org/dtds/library-declaration-1_0.dtd">
+<!-- The Cayenne runtime as an IDE library (Tools > Libraries), backed by the jars this module bundles. -->
+<library version="1.0">
+    <name>cayenne</name>
+    <type>j2se</type>
+    <localizing-bundle>at.priv.joestr.cayenneinnetbeans.Bundle</localizing-bundle>
+    <volume>
+        <type>classpath</type>
+        <resource>jar:nbinst://at.priv.joestr.cayenneinnetbeans/modules/ext/at.priv.joestr.cayenneinnetbeans/org-apache-cayenne/cayenne.jar!/</resource>
+        <resource>jar:nbinst://at.priv.joestr.cayenneinnetbeans/modules/ext/at.priv.joestr.cayenneinnetbeans/org-apache-cayenne/cayenne-di.jar!/</resource>
+        <resource>jar:nbinst://at.priv.joestr.cayenneinnetbeans/modules/ext/at.priv.joestr.cayenneinnetbeans/org-slf4j/slf4j-api.jar!/</resource>
+    </volume>
+    <volume>
+        <type>src</type>
+    </volume>
+    <volume>
+        <type>javadoc</type>
+    </volume>
+</library>
